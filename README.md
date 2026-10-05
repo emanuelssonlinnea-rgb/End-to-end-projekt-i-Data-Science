@@ -21,11 +21,11 @@ Packages: NumPy, Pandas, Jupyter (see `requirements.txt`)
 ## Project structure
 
 ```text
-End-to-end-projekt-i-Data-Science
-Publ/
+End-to-end-projekt-i-Data-Science/
 ├── data/
-│   └── raw_jobs
+│   └── raw_ads_2511.json
 ├── notebooks/  
+│   └── 01_exploration.ipynb01_exploration.ipynb
 ├── src/
 │   └── get_job_ads.py
 └── README.md

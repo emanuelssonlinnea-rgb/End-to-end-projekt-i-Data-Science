@@ -6,15 +6,15 @@ import json
 import time
 from datetime import date
 from pathlib import Path
-
 import requests
 
 URL = "https://historical.api.jobtechdev.se/search"
 OCCUPATION_GROUP = "UXKZ_3zZ_ipB"  # this is the code for the occupation group we identified as SSYK 2511
-PAGE_SIZE = 100  # limit of adds per request
+PAGE_SIZE = 100  # limit of ads per request
 
-START = date(2024, 12, 31)
-END = date(2026, 10, 1)
+
+START = date(2025, 1, 1)  # Included
+END = date(2026, 8, 31)  # Included
 
 OUTPUT_FILE = Path(__file__).resolve().parent.parent / "data" / "raw_ads_2511.json"
 
@@ -38,6 +38,7 @@ def fetch_ads(start: date, end: date) -> list[dict]:
             "occupation-group": OCCUPATION_GROUP,
             "published-after": start.isoformat(),
             "published-before": end.isoformat(),
+            "sort": "pubdate-asc",  # fixed order so pages don't overlap
             "limit": PAGE_SIZE,
             "offset": offset,
         }
@@ -58,7 +59,7 @@ def trim(ad: dict) -> dict:
         "id": ad["original_id"],  # ID of the ad itself (same across versions)
         "version_id": ad.get(
             "id"
-        ),  # ID of this specific record/version in case we want to compare dubplicates
+        ),  # ID of a specific version of the ad, it is different for each republished version
         "title": ad.get("headline"),
         "employer": (ad.get("employer") or {}).get("name"),
         "municipality": (ad.get("workplace_address") or {}).get("municipality"),
@@ -77,7 +78,12 @@ def main():
         print(f"{start} -> {end} | {len(ads)} ads")
         raw.extend(ads)
 
-    trimmed = [trim(ad) for ad in raw]
+    # drop repeated fetches based on the version_id
+    # there will still be duplicates if the ad was republished (it is a limit stated for the Historical API)
+    unique = {ad["id"]: ad for ad in raw}
+    print(f"Removed {len(raw) - len(unique)} duplicate fetches")
+
+    trimmed = [trim(ad) for ad in unique.values()]
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:

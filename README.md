@@ -7,10 +7,10 @@ Both are restricted to one occupation group, **SSYK 2511** (Systemanalytiker och
 ### Hitorical job ads
 - **Source:** JobTech Historical API (Arbetsförmedlingen / Platsbanken), `https://historical.api.jobtechdev.se/search`, license CC0.
 - **Scope:** historical ads in occupation group SSYK 2511. (*Systemanalytiker och IT-arkitekter m.fl.*), filtered on the server with `occupation-group=UXKZ_3zZ_ipB`.
-- **Period:** 2025-01-01 to 2026-09-30.
+- **Period:** 2025-01-01 to 2026-08-31.
 - **Retrieval:** `src/get_job_ads.py` queries one month at a time and pages through results 100 ads at a time. The result is trimmed to the fields relevant for our project.
-- **Retrieved on:** 2026-10-05
-- **Limits:** the data does not account for currently pubblished adds and duplicates remain.
+- **Retrieved on:** 2026-10-07
+- **Limits:** the data does not account for currently pubblished ads and duplicates remain.
 
 ### Skills taxonomy
 - **Source:** Arbetsförmedlingen open data, dataset *SSYK nivå fyra med relationer till kompetensbegrepp och yrkesbenämningar* (https://data.arbetsformedlingen.se/taxonomy/version/31/query/skills-with-related-skill-headlines-and-ssyk-level-4-groups), license CC0.

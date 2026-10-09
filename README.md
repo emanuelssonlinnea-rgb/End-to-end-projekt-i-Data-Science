@@ -94,10 +94,11 @@ Taxonomin omfattar inte heller nödvändigtvis alla typer av kompetenser som kan
 ### Definitionen av skill/kompetenser
 
 I detta projekt definieras en kompetens/skill som en konkret kunskap, teknik, metod, verktyg, programvara, plattform eller annan teknisk kompetens som en person kan behöva behärska för att utföra ett arbete inom IT.
-Vi använder Arbetsförmedlingens taxonomi som en referens men inte facit. Exempelvis inkluderar vi såkallade soft skills som kommunikation, noggranhet och strukturerad som kompetens även om dessa inte inkluderas I Arbetsförmedlingens taxonomi. 
+Vi använder Arbetsförmedlingens taxonomi som en referens men inte facit. Fokus ligger dock på det som kallas "hard skills" då vi inte kommer att inkludera "soft skills" som exempelvis kommunikation, noggranhet, etc. 
 
 #### Inkluderat I definitionen:
-- Allmänna datakunskaper:
+ 
+- Allmänna datakunskaper
 - Applikationsplattformar
 - Certifikat/licenser
 - Datorspråk
@@ -107,17 +108,15 @@ Vi använder Arbetsförmedlingens taxonomi som en referens men inte facit. Exemp
 - Mobiltelefonsystem
 - Nätverk
 - Operativsystem
+- Övriga kompetenser
 - Programmerings- och systemutvecklingsverktyg
 - Ramverk
 - Styr- och utvecklingsmodeller
-- Soft skills
 
-#### Exkluderas ur definitionen:
-- Arbetstitlar
-- Arbetsgivare
-- Regioner
-- Städer
-- Datum
-- Generella aktiviteter
-- År av erfarenhet
+#### Exkluderas ur definitionen
+
 - Arbetsansvar
+- Arbetstitlar
+- Generella aktiviteter
+- Soft skills
+- År av erfarenhet

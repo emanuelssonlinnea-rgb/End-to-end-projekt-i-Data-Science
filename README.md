@@ -9,7 +9,7 @@ Both are restricted to one occupation group, **SSYK 2511** (Systemanalytiker och
 - **Scope:** historical ads in occupation group SSYK 2511. (*Systemanalytiker och IT-arkitekter m.fl.*), filtered on the server with `occupation-group=UXKZ_3zZ_ipB`.
 - **Period:** 2025-01-01 to 2026-08-31.
 - **Retrieval:** `src/get_job_ads.py` queries one month at a time and pages through results 100 ads at a time. The result is trimmed to the fields relevant for our project.
-- **Retrieved on:** 2026-10-07
+- **Retrieved on:** 2026-10-09
 - **Limits:** the data does not account for currently pubblished ads and duplicates remain.
 
 ### Skills taxonomy
@@ -50,9 +50,14 @@ Packages: NumPy, Pandas, Jupyter (see `requirements.txt`)
 ```text
 End-to-end-projekt-i-Data-Science/
 ├── data/
-│   └── skills_2511.json
+│   ├── ads_clean.json
+│   ├── skills_2511.json
+│   ├── test_set.json
+│   └── train_set.json
 ├── notebooks/  
-│   └── 01_exploration.ipynb
+│   ├── 01_exploration.ipynb
+│   ├── 02_cleaning.ipynb
+│   └── 03_test_set_extraction.ipynb
 ├── src/
 │   └── get_job_ads.py
 │   └── get_skills.py

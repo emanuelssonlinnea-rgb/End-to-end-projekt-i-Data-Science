@@ -1,5 +1,34 @@
 # verktyg för att utvärdera metoderna
 
+def build_alias_to_canonical(
+    tier1_phrases,
+    tier2_exact_case,
+    tier3_custom
+):
+    alias_to_canonical = {}
+
+    # Tier 1
+    for skill in tier1_phrases:
+        alias_to_canonical[skill.casefold()] = skill
+
+    # Tier 2
+    for canonical, spellings in tier2_exact_case.items():
+        for spelling in spellings:
+            alias_to_canonical[spelling.casefold()] = canonical
+
+    # Tier 3
+    for canonical, aliases in tier3_custom.items():
+
+        for alias in aliases.get("any_case", []):
+            alias_to_canonical[alias.casefold()] = canonical
+
+        for alias in aliases.get("exact_case", []):
+            alias_to_canonical[alias.casefold()] = canonical
+
+    return alias_to_canonical
+
+
+
 def normalize_skills(skills, alias_to_canonical):
     normalized = set()
 
@@ -23,11 +52,7 @@ def calculate_metrics(gold_dict, prediction_dict):
     total_fn = 0
 
     for ad_id, gold_skills in gold_dict.items():
-
-        predicted_skills = prediction_dict.get(
-            ad_id,
-            set()
-        )
+        predicted_skills = prediction_dict.get(ad_id, set())
 
         tp = gold_skills & predicted_skills
         fp = predicted_skills - gold_skills
@@ -66,32 +91,20 @@ def calculate_metrics(gold_dict, prediction_dict):
 
 
 # felanalys:
-def create_error_analysis(
-    test_df,
-    gold_dict,
-    prediction_dict
-):
+def create_error_analysis(gold_dict, prediction_dict):
     errors = []
 
-    for _, row in test_df.iterrows():
+    for ad_id, gold_skills in gold_dict.items():
+        predicted_skills = prediction_dict.get(ad_id, set())
 
-        ad_id = str(row["id"])
-
-        gold = gold_dict.get(ad_id, set())
-        predicted = prediction_dict.get(ad_id, set())
-
-        false_positives = predicted - gold
-        false_negatives = gold - predicted
+        false_positives = predicted_skills - gold_skills
+        false_negatives = gold_skills - predicted_skills
 
         if false_positives or false_negatives:
             errors.append({
                 "id": ad_id,
-                "false_positives": sorted(
-                    false_positives
-                ),
-                "false_negatives": sorted(
-                    false_negatives
-                )
+                "false_positives": sorted(false_positives),
+                "false_negatives": sorted(false_negatives)
             })
 
     return errors

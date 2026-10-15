@@ -1,24 +1,3 @@
-# End-to-end-projekt-i-Data-Science/
-# ├── data/
-# │   ├── ads_clean.json
-# │   ├── annoterad_test_data.json
-# │   ├── skills_2511.json
-# │   ├── test_set_labelstudio.json
-# │   └── train_set.json
-# ├── notebooks/
-# │   ├── 01_exploration.ipynb
-# │   ├── 02_cleaning.ipynb
-# │   ├── 03_test_set_extraction.ipynb
-# │   ├── 04_baseline.ipynb     # importerar baseline function från models.py
-# │   ├── 05_entity_ruler.ipynb # importerar entity ruler function från models.py
-# │   └── 06_evaluation.ipynb
-# ├── src/
-# │   ├── get_job_ads.py
-# │   ├── get_skills.py
-# │   ├── models.py             # innehåller både baseline och Entity Ruler functioner
-# │   └── skill_rules.py        # innehåller alla skills vi skrev för att skapa reglerna
-# └── README.md
-
 import re
 import spacy
 

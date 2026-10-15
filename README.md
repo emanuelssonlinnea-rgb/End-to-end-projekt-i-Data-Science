@@ -38,30 +38,36 @@ Create and activate a virtual environment:
 `.venv\Scripts\Activate` (for Windows PowerShell)  
 
 Install dependencies:  
-`python -m pip install -r requirements.txt`  
+`pip install -e .`  
 
 
 ## Environment  
 Python 3.13.7  
-Packages: NumPy, Pandas, Jupyter (see `requirements.txt`)  
+Packages: NumPy, Pandas, Jupyter, Spacy (see `pyproject.toml`)  
 
 ## Project structure
 
 ```text
-End-to-end-projekt-i-Data-Science/
-├── data/
-│   ├── ads_clean.json
-│   ├── skills_2511.json
-│   ├── test_set.json
-│   └── train_set.json
-├── notebooks/  
-│   ├── 01_exploration.ipynb
-│   ├── 02_cleaning.ipynb
-│   └── 03_test_set_extraction.ipynb
-├── src/
-│   └── get_job_ads.py
-│   └── get_skills.py
-└── README.md
+# End-to-end-projekt-i-Data-Science/
+# ├── data/
+# │   ├── ads_clean.json
+# │   ├── annoterad_test_data.json
+# │   ├── skills_2511.json
+# │   ├── test_set_labelstudio.json
+# │   └── train_set.json
+# ├── notebooks/
+# │   ├── 01_exploration.ipynb
+# │   ├── 02_cleaning.ipynb
+# │   ├── 03_test_set_extraction.ipynb
+# │   ├── 04_baseline.ipynb    
+# │   ├── 05_entity_ruler.ipynb  
+# │   └── 06_evaluation.ipynb
+# ├── src/
+# │   ├── get_job_ads.py
+# │   ├── get_skills.py
+# │   ├── models.py
+# │   └── skill_rules.py
+# └── README.md
 ```
 
 ## Avgränsningar

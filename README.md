@@ -1,74 +1,110 @@
-## Project description  
+# Kompetenstrender inom svensk IT - en NLP-analys av jobbannonser 2025-2026
+
+![alt text](<data/graphs/Vanligast kompetenser wordcloud.png>)
+
+
+## Projektbeskrivning
+I det här projektet tillämpar vi NLP-metoder för att extrahera hard skills ur svenska jobbannonser.
+
+
+## Snabb start
+Clona repot:  
+`git clone https://github.com/emanuelssonlinnea-rgb/End-to-end-projekt-i-Data-Science.git`  
+
+Skapa och aktivera env:  
+`cd End-to-end-projekt-i-Data-Science`    
+`python -m venv .venv`  
+`.venv\Scripts\Activate` (Windows PowerShell)  
+
+Installera beroenden:  
+`pip install -e .`  
+
+
+## Miljö  
+Python 3.13.7  
+Paket: NumPy, Pandas, Jupyter, Matplotlib, Spacy (se `pyproject.toml`)  
+
+
+## Project struktur
+```text
+End-to-end-projekt-i-Data-Science/
+├── data/
+│   ├── ads_clean.json
+│   ├── ads_skills.json
+│   ├── annoterad_test_data.json
+│   ├── skills_2511.json
+│   ├── test_set_labelstudio.json
+│   └── train_set.json
+├── notebooks/
+│   ├── 01_exploration.ipynb
+│   ├── 02_cleaning.ipynb
+│   ├── 03_test_set_extraction.ipynb
+│   ├── 04_baseline.ipynb    
+│   ├── 05_entity_ruler.ipynb  
+│   ├── 06_evaluation.ipynb
+│   ├── 07_full_dataset_analysis.ipynb            
+│   └── 08_demo.ipynb
+├── src/
+│   ├── evaluation_utils.py
+│   ├── get_job_ads.py
+│   ├── get_skills.py
+│   ├── models.py
+│   └── skill_rules.py
+└── README.md
+```
 
 ## Data
-This project combines two datasets from Arbetsförmedlingen: a collection of **unpublished job ads** and a **taxonomy of skills**.  
-Both are restricted to one occupation group, **SSYK 2511** (Systemanalytiker och IT-arkitekter m.fl.). In Arbetsförmedlingen's taxonomy every occupation group has a concept ID, and the ID for 2511 is **UXKZ_3zZ_ipB**.
 
-### Hitorical job ads
-- **Source:** JobTech Historical API (Arbetsförmedlingen / Platsbanken), `https://historical.api.jobtechdev.se/search`, license CC0.
-- **Scope:** historical ads in occupation group SSYK 2511. (*Systemanalytiker och IT-arkitekter m.fl.*), filtered on the server with `occupation-group=UXKZ_3zZ_ipB`.
-- **Period:** 2025-01-01 to 2026-08-31.
-- **Retrieval:** `src/get_job_ads.py` queries one month at a time and pages through results 100 ads at a time. The result is trimmed to the fields relevant for our project.
-- **Retrieved on:** 2026-10-09
-- **Limits:** the data does not account for currently pubblished ads and duplicates remain.
+Projektet kombinerar två dataset från Arbetsförmedlingen: en samling **opublicerade jobbannonser** och en **taxonomi över kompetenser**.  
+Båda är begränsade till en yrkesgrupp, **SSYK 2511** (Systemanalytiker och IT-arkitekter m.fl.). I Arbetsförmedlingens taxonomi har varje yrkesgrupp ett concept-ID, och ID:t för 2511 är **UXKZ_3zZ_ipB**.
 
-### Skills taxonomy
-- **Source:** Arbetsförmedlingen open data, dataset *SSYK nivå fyra med relationer till kompetensbegrepp och yrkesbenämningar* (https://data.arbetsformedlingen.se/taxonomy/version/31/query/skills-with-related-skill-headlines-and-ssyk-level-4-groups), license CC0.
-- **Content:** SSYK level 4 groups, each with related skills (`related`) and occupation names (`narrower`).
-- **Selection:** we keep only the group with concept id `UXKZ_3zZ_ipB` (SSYK 2511), the same id that the ads carry in `occupation_group.concept_id`.
-- **Retrieval:** `<src/get_skills.py>`, saved as `data/skills_2511.json`.
-- **Retrieved on:** 2026-10-05.
-- **Note:** the taxonomy is updated monthly. As of the time of retrieval, the latest version is 31.
+### Historiska jobbannonser
+- **Källa:** JobTech Historical API (Arbetsförmedlingen / Platsbanken), `https://historical.api.jobtechdev.se/search`, licens CC0.
+- **Omfattning:** historiska annonser i yrkesgrupp SSYK 2511 (*Systemanalytiker och IT-arkitekter m.fl.*), filtrerade på serversidan med `occupation-group=UXKZ_3zZ_ipB`.
+- **Period:** 2025-01-01 till 2026-08-31.
+- **Hämtning:** `src/get_job_ads.py` frågar efter en månad i taget och bläddrar igenom resultaten 100 annonser åt gången. Resultatet beskärs till de fält som är relevanta för vårt projekt.
+- **Hämtad:** 2026-10-09
+- **Begränsningar:** datan omfattar inte annonser som är publicerade just nu, och dubbletter finns kvar.
 
-### Reproducing the data
-Run the two scripts from the project root.
+### Kompetenstaxonomi
+- **Källa:** Arbetsförmedlingens öppna data, dataset *SSYK nivå fyra med relationer till kompetensbegrepp och yrkesbenämningar* (https://data.arbetsformedlingen.se/taxonomy/version/31/query/skills-with-related-skill-headlines-and-ssyk-level-4-groups), licens CC0.
+- **Innehåll:** SSYK nivå 4-grupper, var och en med relaterade kompetenser (`related`) och yrkesbenämningar (`narrower`).
+- **Urval:** vi behåller endast gruppen med concept-ID `UXKZ_3zZ_ipB` (SSYK 2511), samma ID som annonserna har i `occupation_group.concept_id`.
+- **Hämtning:** `<src/get_skills.py>`, sparad som `data/skills_2511.json`.
+- **Hämtad:** 2026-10-05.
+- **Observera:** taxonomin uppdateras månadsvis. Vid hämtningstillfället var den senaste versionen 31.
 
+
+## Definition av skill/kompetenser
+
+I detta projekt definieras en kompetens/skill som en konkret kunskap, teknik, metod, verktyg, programvara, plattform eller annan teknisk kompetens som en person kan behöva behärska för att utföra ett arbete inom IT.
+Vi använder Arbetsförmedlingens taxonomi som en referens men inte facit. Fokus ligger dock på det som kallas "hard skills" då vi inte kommer att inkludera "soft skills" som exempelvis kommunikation, noggranhet, etc. 
+
+**Inkluderat i definitionen**
+Tekniska kompetenser inom 14 kategorier i taxonomin, bland annat datorspråk, ramverk, operativsystem, nätverk och certifikat.
+
+**Exkluderas ur definitionen**
+Arbetsansvar, arbetstitlar, generella aktiviteter, soft skills och år av erfarenhet.
+
+## Reproducerbarhet
+**Rådatan finns inte i repot.** De råa jobbannonserna är inte incheckade eftersom de potentiellt innehåller personuppgifter. `src/get_job_ads.py` och `src/get_skills.py` hämtar dem från Arbetsförmedlingens API:er, så att köra dem ger dig en ny ögonblicksbild, inte den data vi arbetade med.
+
+**Notebook 3 (uppdelning i tränings- och testdata) är fryst.** Testdatan annoterades för hand, och varje senare notebook bygger på exakt den uppdelningen. Om uppdelningen körs om på ny data skulle den ge andra tränings- och testmängder, och de manuella annoteringarna skulle inte längre stämma med datan. Därför är uppdelningen sparad på disk och incheckad i repot, och notebookarna efter den läser från dessa sparade filer i stället för från rådatan. Cellen som sparar dem är bortkommenterad som standard; avkommentera den bara om du medvetet vill skapa en ny uppdelning.
+
+För att **reproducera våra resultat**, kör följande notebooks i ordning:
+- 04_baseline.ipynb
+- 05_entity_ruler.ipynb
+- 06_evaluation.ipynb
+- 07_full_dataset_analysis.ipynb
+
+För att **tillämpa metoden på ny data**, kör hela pipelinen med början i de två skripten från projektets rotkatalog.
 ```python
 python src/get_job_ads.py
 python src/get_skills.py
 ```
-
-## Quick Start
-Clone the repo:  
-`git clone https://github.com/emanuelssonlinnea-rgb/End-to-end-projekt-i-Data-Science.git`  
-
-Create and activate a virtual environment:  
-`cd End-to-end-projekt-i-Data-Science`    
-`python -m venv .venv`  
-`.venv\Scripts\Activate` (for Windows PowerShell)  
-
-Install dependencies:  
-`pip install -e .`  
+Du får då en ny uppdelning och behöver annotera en ny testmängd.
 
 
-## Environment  
-Python 3.13.7  
-Packages: NumPy, Pandas, Jupyter, Spacy (see `pyproject.toml`)  
-
-## Project structure
-
-```text
-# End-to-end-projekt-i-Data-Science/
-# ├── data/
-# │   ├── ads_clean.json
-# │   ├── annoterad_test_data.json
-# │   ├── skills_2511.json
-# │   ├── test_set_labelstudio.json
-# │   └── train_set.json
-# ├── notebooks/
-# │   ├── 01_exploration.ipynb
-# │   ├── 02_cleaning.ipynb
-# │   ├── 03_test_set_extraction.ipynb
-# │   ├── 04_baseline.ipynb    
-# │   ├── 05_entity_ruler.ipynb  
-# │   └── 06_evaluation.ipynb
-# ├── src/
-# │   ├── get_job_ads.py
-# │   ├── get_skills.py
-# │   ├── models.py
-# │   └── skill_rules.py
-# └── README.md
-```
 
 ## Avgränsningar
 ### Data
@@ -101,33 +137,3 @@ Denna avgränsning minskar antalet kompetenser som behöver matchas och gör bea
 Strängmatchning har dessutom en metodologisk begränsning eftersom den huvudsakligen identifierar kompetenser som uttrycks på samma eller liknande sätt som i taxonomin. Förkortningar, synonymer, alternativa stavningar och kompetenser som saknas i taxonomin riskerar därför att inte identifieras.
 
 Taxonomin omfattar inte heller nödvändigtvis alla typer av kompetenser som kan förekomma i jobbannonser, exempelvis vissa generella eller sociala kompetenser (soft skills). För att kunna utvärdera denna begränsning kommer ett urval av jobbannonser att annoteras manuellt i Label Studio. Den manuella annoteringen används som ett gold standard mot vilket resultatet från baseline och övriga metoder kan jämföras.
-
-### Definitionen av skill/kompetenser
-
-I detta projekt definieras en kompetens/skill som en konkret kunskap, teknik, metod, verktyg, programvara, plattform eller annan teknisk kompetens som en person kan behöva behärska för att utföra ett arbete inom IT.
-Vi använder Arbetsförmedlingens taxonomi som en referens men inte facit. Fokus ligger dock på det som kallas "hard skills" då vi inte kommer att inkludera "soft skills" som exempelvis kommunikation, noggranhet, etc. 
-
-#### Inkluderat I definitionen:
- 
-- Allmänna datakunskaper
-- Applikationsplattformar
-- Certifikat/licenser
-- Datorspråk
-- Integrationsplattformar
-- Kommunikationsprotokoll
-- Kvalitetssystem
-- Mobiltelefonsystem
-- Nätverk
-- Operativsystem
-- Övriga kompetenser
-- Programmerings- och systemutvecklingsverktyg
-- Ramverk
-- Styr- och utvecklingsmodeller
-
-#### Exkluderas ur definitionen
-
-- Arbetsansvar
-- Arbetstitlar
-- Generella aktiviteter
-- Soft skills
-- År av erfarenhet

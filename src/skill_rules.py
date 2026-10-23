@@ -1,5 +1,15 @@
+"""
+Kompetenser samplades i 3 grupper:
+Tier 1 - Words and phrases, any case: 
+         Enkla och tydliga ord som matchar oavsett stora eller små bokstäver.
+Tier 2 - Exact case: 
+         Korta eller tvetydliga ord som endast matchas med exakt case.
+Tier 3 - Custom aliases: 
+         Egna alias, synonymer och alternativa stavningar till en kompetens.
+"""
+
+
 # TIER 1 - PHRASES, matched in ANY case
-# Taxonomy labels, copied as-is.
 
 TIER1_PHRASES = [
     "Kravhantering",

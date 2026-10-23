@@ -10,11 +10,16 @@ requires-python = ">=3.13"
 dependencies = [
     "jupyter>=1.1",
     "spacy>=3.8",
+    "sv-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/sv_core_news_sm-3.8.0/sv_core_news_sm-3.8.0-py3-none-any.whl",
+    "pandas>=3.0",
     "pandas>=3.0",
     "numpy>=2.5",
     "requests>=2.34",
     "langdetect>=1.0",
     "beautifulsoup4>=4.15",
+    "matplotlib>=3.11",
+    "seaborn>=0.13",
+    "wordcloud>=1.9",
 ]
 
 [tool.setuptools]

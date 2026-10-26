@@ -74,7 +74,6 @@ Båda är begränsade till en yrkesgrupp, **SSYK 2511** (Systemanalytiker och IT
 - **Hämtad:** 2026-10-05.
 - **Observera:** taxonomin uppdateras månadsvis. Vid hämtningstillfället var den senaste versionen 31.
 
-
 ## Definition av skill/kompetenser
 
 I detta projekt definieras en kompetens/skill som en konkret kunskap, teknik, metod, verktyg, programvara, plattform eller annan teknisk kompetens som en person kan behöva behärska för att utföra ett arbete inom IT.
@@ -103,37 +102,3 @@ python src/get_job_ads.py
 python src/get_skills.py
 ```
 Du får då en ny uppdelning och behöver annotera en ny testmängd.
-
-
-
-## Avgränsningar
-### Data
-Datan i projektet kommer från Arbetsförmedlingens jobbdatabas Platsbanken. Eftersom studien fokuserar på historiska jobbannonser från 2025 och 2026 hämtades datan från Arbetsförmedlingens Historical Job Ads API . API:et innehåller jobbannonser som inte längre är aktiva i Platsbanken.
-
-Projektet omfattar därför inte annonser från andra jobbsajter eller rekryteringsplattformar. Resultaten speglar därmed de jobbannonser som publicerats i Platsbanken och kan inte antas representera samtliga lediga tjänster på den svenska arbetsmarknaden.
-
-### Tidsperiod
-Studieperioden avgränsades till 1 januari 2025–31 augusti 2026. Projektet genomförs under september och oktober 2026, vilket innebär att vissa annonser som publicerats under 2026 fortfarande kan vara aktiva och därför ännu inte finnas tillgängliga i Historical Job Ads API.
-
-Detta innebär att framför allt de senare månaderna under 2026 kan innehålla färre annonser än motsvarande period 2025. Jämförelser mellan åren behöver därför göras med hänsyn till denna begränsning.
-
-För att göra jämförelser mellan 2025 och 2026 mer rättvisande kan analyser som jämför åren direkt begränsas till samma månader, exempelvis januari–augusti för båda åren.
-
-### Yrkesmässig avgränsning
-Projektets ursprungliga mål var att undersöka vilka kompetenser som efterfrågas inom IT på den svenska arbetsmarknaden. På grund av projektets omfattning valde vi att avgränsa analysen till SSYK-gruppen 2511 - Systemanalytiker och IT-arkitekter m.fl. 
-
-Gruppen omfattar bland annat yrken som Data Scientist, IT-arkitekt, kravanalytiker, systemanalytiker, systemarkitekt och verksamhetskonsult inom IT.
-
-Enligt Arbetsförmedlingens Yrkesatlas arbetar dessa roller bland annat med utveckling av IT-system, IT-struktur och teknisk arkitektur samt med att säkerställa att IT-lösningar stödjer verksamhetens behov.
-
-Avgränsningen minskar datamängden och gör det möjligt att genomföra en mer fokuserad analys inom projektets tidsram. Samtidigt innebär den att resultaten inte kan generaliseras till hela IT- och datasektorn. Resultaten bör i stället tolkas som en analys av kompetensefterfrågan inom den valda yrkesgruppen.
-
-### Baseline och kompetenstaxonomi
-
-Som baseline används strängmatchning mot kompetenser från Arbetsförmedlingens kompetenstaxonomi. Även taxonomin har avgränsats till kompetenser som är relaterade till SSYK 2511 för att motsvara den valda gruppen av jobbannonser.
-
-Denna avgränsning minskar antalet kompetenser som behöver matchas och gör bearbetningen mer hanterbar. En konsekvens är dock att kompetenser som förekommer i annonserna men som i Arbetsförmedlingens taxonomi främst är kopplade till andra yrkesgrupper kan missas.
-
-Strängmatchning har dessutom en metodologisk begränsning eftersom den huvudsakligen identifierar kompetenser som uttrycks på samma eller liknande sätt som i taxonomin. Förkortningar, synonymer, alternativa stavningar och kompetenser som saknas i taxonomin riskerar därför att inte identifieras.
-
-Taxonomin omfattar inte heller nödvändigtvis alla typer av kompetenser som kan förekomma i jobbannonser, exempelvis vissa generella eller sociala kompetenser (soft skills). För att kunna utvärdera denna begränsning kommer ett urval av jobbannonser att annoteras manuellt i Label Studio. Den manuella annoteringen används som ett gold standard mot vilket resultatet från baseline och övriga metoder kan jämföras.

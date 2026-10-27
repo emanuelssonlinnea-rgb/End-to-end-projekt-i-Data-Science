@@ -25,7 +25,7 @@ Python 3.13.7
 Paket: NumPy, Pandas, Jupyter, Matplotlib, Spacy (se `pyproject.toml`)  
 
 
-## Project struktur
+## Projektstruktur
 ```text
 End-to-end-projekt-i-Data-Science/
 ├── data/
@@ -50,6 +50,7 @@ End-to-end-projekt-i-Data-Science/
 │   ├── get_skills.py
 │   ├── models.py
 │   └── skill_rules.py
+├── project_limitations.md
 └── README.md
 ```
 

@@ -2,10 +2,12 @@
 
 ![alt text](<data/graphs/Vanligast kompetenser wordcloud.png>)
 
+## Gruppmedlemmar
+Katarina Behrami, Linnéa Emanuelsson, Isabel Holm, Irene Grisenti &  Magdalena Persson
 
 ## Projektbeskrivning
 I det här projektet tillämpar vi NLP-metoder för att extrahera hard skills ur svenska jobbannonser.
-
+Resultatet riktar sig framför allt till arbetssökande inom Data och IT.
 
 ## Snabb start
 Clona repot:  
@@ -86,6 +88,15 @@ Tekniska kompetenser inom 14 kategorier i taxonomin, bland annat datorspråk, ra
 **Exkluderas ur definitionen**
 Arbetsansvar, arbetstitlar, generella aktiviteter, soft skills och år av erfarenhet.
 
+## Modeller/ metoder
+Vi jämförde en baseline som matchar kompetenser mot Arbetsförmedlingens taxonomi med strängmatchning mot en spaCy-EntityRuler med egenskrivna regler, och utvärderade båda mot ett manuellt annoterat facit på 192 annonser.
+
+## Resultat
+EntityRuler med egna regler gav bäst resultat mot facit (precision 0,61, recall 0,21, F1 0,31), medan baseline med strängmatchning mot taxonomin hade låg recall trots en precision på 0,26 respektive 0,70.
+
+## Begränsningar
+Resultaten beskriver kompetenser som vår lista kan fånga i Platsbankens svenska annonser för SSYK 2511, och kan inte generaliseras till hela IT-arbetsmarknaden; se project_limitations.md för en fullständig genomgång.
+
 ## Reproducerbarhet
 **Rådatan finns inte i repot.** De råa jobbannonserna är inte incheckade eftersom de potentiellt innehåller personuppgifter. `src/get_job_ads.py` och `src/get_skills.py` hämtar dem från Arbetsförmedlingens API:er, så att köra dem ger dig en ny ögonblicksbild, inte den data vi arbetade med.
 
@@ -103,3 +114,7 @@ python src/get_job_ads.py
 python src/get_skills.py
 ```
 Du får då en ny uppdelning och behöver annotera en ny testmängd.
+
+## Hur generativ AI har använts
+Generativ AI (Claude och ChatGPT) har använts för att ta fram kodutkast, bryta ned begrepp och felsöka felmeddelanden. 
+All analys, annotering och alla slutsatser har genomförts och kontrollerats av gruppen.
